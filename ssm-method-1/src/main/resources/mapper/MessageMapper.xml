@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.ssm.method1.dao.MessageDao">
+
+
+    <!-- 创建数据库与实体类字段对应关系 -->
+    <resultMap type="com.test.ssm.method1.model.Message" id="messageMap">
+        <result column="id" property="id"/>
+        <result column="from_user_id" property="fromUserId"/>
+        <result column="to_user_id" property="toUserId"/>
+        <result column="content" property="content"/>
+        <result column="send_time" property="sendTime"/>
+    </resultMap>
+
+
+    <select id="selectByPrimaryKey" resultMap="messageMap">
+        select
+        id,
+        from_user_id,
+        to_user_id,
+        content,
+        send_time
+        from
+        message
+        where
+        id = #{id}
+    </select>
+</mapper>
