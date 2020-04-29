@@ -27,9 +27,18 @@ public class TestMybatisCache {
         // 第一次查询，会发出sql语句，并将查询的结果放入缓存中
         Message message = messageDao.selectByPrimaryKey(2);
         log.info("message1 = {}", message);
+        sqlSession.close();
+        // sqlSession 关闭了，那么一级缓存自然也就失效了，但是如果开启了二级缓存，如果是调用了同一个mapper里面的select方法，如果二级缓存
+        // 里面有数据，还是会从二级缓存里面取数据
+        // 二级缓存的原理和一级缓存原理一样，第一次查询，会将数据放入缓存中，然后第二次查询则会直接去缓存中取。
+        // 但是一级缓存是基于 sqlSession 的，而 二级缓存是基于 mapper文件的namespace的，
+        // 也就是说多个sqlSession可以共享一个mapper中的二级缓存区域，并且如果两个mapper的namespace相同，
+        // 即使是两个mapper，那么这两个mapper中执行sql查询到的数据也将存在相同的二级缓存区域中
+        sqlSession = sqlSessionFactory.openSession();
+        messageDao = sqlSession.getMapper(MessageDao.class);
         // 修改数据
-        messageDao.updateByPrimaryKey(2);
-        sqlSession.commit();
+//        messageDao.updateByPrimaryKey(2);
+//        sqlSession.commit();
 //        int result = messageDao.updateByPrimaryKey(2);
         Message message2 = messageDao.selectByPrimaryKey(2);
         log.info("message2 = {}", message2);

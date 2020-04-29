@@ -62,7 +62,7 @@
         <property name="configurationProperties">
             <props>
                 <!-- 这个配置使全局的映射器启用或禁用缓存，开启二级缓存，另外需要去mapper里面加上 <cache></cache>标签才能正常开启 -->
-                <prop key="cacheEnabled">true</prop>
+                <prop key="cacheEnabled">false</prop>
                 <!-- 对于未知的SQL查询，允许返回不同的结果集以达到通用的效果 -->
 <!--                <prop key="multipleResultSetsEnabled">true</prop>-->
 <!--                &lt;!&ndash; 配置默认的执行器。SIMPLE 执行器没有什么特别之处。REUSE 执行器重用预处理语句。BATCH 执行器重用语句和批量更新 &ndash;&gt;-->
