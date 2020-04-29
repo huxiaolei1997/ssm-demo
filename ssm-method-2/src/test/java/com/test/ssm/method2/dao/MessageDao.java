@@ -1,6 +1,9 @@
 package com.test.ssm.method2.dao;
 
 import com.test.ssm.method2.model.Message;
+import org.apache.ibatis.plugin.Intercepts;
+
+import java.util.List;
 
 /**
  * 用途描述
@@ -14,4 +17,6 @@ public interface MessageDao {
     Message selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKey(Integer id);
+
+    List<Message> selectByFromUserId(Integer fromUserId);
 }

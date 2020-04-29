@@ -74,6 +74,11 @@
 <!--                <prop key="defaultStatementTimeout">25000</prop>-->
             </props>
         </property>
+        <property name="plugins">
+            <list>
+                <bean id="myInterceptor" class="com.test.ssm.method2.interceptor.MyInterceptor" />
+            </list>
+        </property>
     </bean>
 
     <!-- DAL接口所在包名，Spring会自动查找其下的类 -->

@@ -25,4 +25,26 @@
         where
         id = #{id}
     </select>
+
+    <!-- flushCache，代表刷新缓存，默认为true，如果不刷新会造成脏读-->
+    <update id="updateByPrimaryKey" parameterType="int" flushCache="true">
+        update
+        message
+        set content = 'aaa'
+        where
+        id = 2
+    </update>
+
+    <select id="selectByFromUserId" resultMap="messageMap" useCache="true" parameterType="int">
+        select
+        id,
+        from_user_id,
+        to_user_id,
+        content,
+        send_time
+        from
+        message
+        where
+        from_user_id = #{fromUserId}
+    </select>
 </mapper>

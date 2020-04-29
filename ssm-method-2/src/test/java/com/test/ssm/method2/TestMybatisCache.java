@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.List;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @Slf4j
@@ -70,5 +72,17 @@ public class TestMybatisCache {
         Message message2 = messageDao2.selectByPrimaryKey(2);
         log.info("message2 = {}", message2);
         sqlSession2.close();
+    }
+
+
+    @Test
+    public void testSelectInterceptor() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        MessageDao messageDao = sqlSession.getMapper(MessageDao.class);
+
+        List<Message> messages = messageDao.selectByFromUserId(8);
+        log.info("result = {}", messages);
+        sqlSession.close();
     }
 }

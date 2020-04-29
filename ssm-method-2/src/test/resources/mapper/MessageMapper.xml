@@ -37,4 +37,17 @@
         where
         id = 2
     </update>
+
+    <select id="selectByFromUserId" resultMap="messageMap" useCache="true" parameterType="int">
+        select
+        id,
+        from_user_id,
+        to_user_id,
+        content,
+        send_time
+        from
+        message
+        where
+        from_user_id = #{fromUserId}
+    </select>
 </mapper>
