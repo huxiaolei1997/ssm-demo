@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.ssm.method2.dao.MessageDao">
+
+
+    <!-- 创建数据库与实体类字段对应关系 -->
+    <resultMap type="com.test.ssm.method2.model.Message" id="messageMap">
+        <result column="id" property="id"/>
+        <result column="from_user_id" property="fromUserId"/>
+        <result column="to_user_id" property="toUserId"/>
+        <result column="content" property="content"/>
+        <result column="send_time" property="sendTime"/>
+    </resultMap>
+
+    <!-- 开启二级缓存，PerpetualCache这个类是mybatis默认实现缓存功能的类，我们可以实现Cache接口来实现自定义缓存-->
+    <cache type="org.apache.ibatis.cache.impl.PerpetualCache"></cache>
+
+    <!-- useCache false 代表禁用当前sql语句的二级缓存，默认是开启的true-->
+    <select id="selectByPrimaryKey" resultMap="messageMap" useCache="true">
+        select
+        id,
+        from_user_id,
+        to_user_id,
+        content,
+        send_time
+        from
+        message
+        where
+        id = #{id}
+    </select>
+
+    <!-- flushCache，代表刷新缓存，默认为true，如果不刷新会造成脏读-->
+    <update id="updateByPrimaryKey" parameterType="int" flushCache="true">
+        update
+        message
+        set content = 'aaa'
+        where
+        id = 2
+    </update>
+</mapper>
