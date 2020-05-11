@@ -13,7 +13,7 @@
     </resultMap>
 
     <!-- 开启二级缓存，PerpetualCache这个类是mybatis默认实现缓存功能的类，我们可以实现Cache接口来实现自定义缓存-->
-<!--    <cache type="org.apache.ibatis.cache.impl.PerpetualCache"></cache>-->
+    <cache type="org.apache.ibatis.cache.impl.PerpetualCache"></cache>
 
     <!-- useCache false 代表禁用当前sql语句的二级缓存，默认是开启的true-->
     <select id="selectByPrimaryKey" resultMap="messageMap" useCache="true">
