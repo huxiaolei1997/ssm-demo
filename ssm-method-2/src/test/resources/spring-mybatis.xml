@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
             http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
             http://www.springframework.org/schema/context
-            http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+            http://www.springframework.org/schema/context/spring-context-4.3.xsd
+            http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <!-- 引入项目配置文件 -->
     <context:property-placeholder location="classpath:jdbc.properties" ignore-unresolvable="true" order="1"/>
@@ -91,4 +94,41 @@
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 
+    <bean id="sqlTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionFactory" />
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- 开启基于注解声明式事务 注意配置transaction-manager属性，它引用了我们事务管理组件对象，这里要和事务管理器组件id一致
+        默认是transactionManager -->
+    <tx:annotation-driven transaction-manager="transactionManager" />
+
+    <!--
+<tx:advice>定义事务通知，用于指定事务属性，其中“transaction-manager”属性指定事务管理器，并通过<tx:attributes>指定具体需要拦截的方法
+    <tx:method>拦截方法，其中参数有：
+    name:方法名称，将匹配的方法注入事务管理，可用通配符
+    propagation：事务传播行为，
+    isolation：事务隔离级别定义；默认为“DEFAULT”
+    timeout：事务超时时间设置，单位为秒，默认-1，表示事务超时将依赖于底层事务系统；
+    read-only：事务只读设置，默认为false，表示不是只读；
+    rollback-for：需要触发回滚的异常定义，可定义多个，以“，”分割，默认任何RuntimeException都将导致事务回滚，而任何Checked Exception将不导致事务回滚；
+    no-rollback-for：不被触发进行回滚的 Exception(s)；可定义多个，以“，”分割；
+ -->
+    <tx:advice id="advice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <!-- 拦截save开头的方法，事务传播行为为：REQUIRED：必须要有事务, 如果没有就在上下文创建一个 -->
+            <tx:method name="save*" propagation="REQUIRED" isolation="READ_COMMITTED" read-only="false" rollback-for="java.lang.Exception"/>
+            <!-- 支持,如果有就有,没有就没有 -->
+            <tx:method name="*" propagation="SUPPORTS"/>
+        </tx:attributes>
+    </tx:advice>
+    <!-- 定义切入点，expression为切人点表达式，如下是指定impl包下的所有方法，具体以自身实际要求自定义  -->
+    <aop:config>
+        <aop:pointcut expression="execution(* com.test.ssm.*.serviceImpl.*.*(..))" id="pointcut"/>
+        <!--<aop:advisor>定义切入点，与通知，把tx与aop的配置关联,才是完整的声明事务配置 -->
+        <aop:advisor advice-ref="advice" pointcut-ref="pointcut"/>
+    </aop:config>
 </beans>

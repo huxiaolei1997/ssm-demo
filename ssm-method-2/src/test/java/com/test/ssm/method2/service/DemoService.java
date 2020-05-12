@@ -1,5 +1,7 @@
 package com.test.ssm.method2.service;
 
+import com.test.ssm.method2.model.Message;
+
 /**
  * 用途描述
  *
@@ -10,4 +12,8 @@ package com.test.ssm.method2.service;
  */
 public interface DemoService {
     String hello(String name);
+
+    Message selectByPrimaryKey(Integer id);
+
+    int updateByPrimaryKey(Integer id);
 }

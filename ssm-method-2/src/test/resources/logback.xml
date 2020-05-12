@@ -108,10 +108,12 @@
 
 
     <!-- 配置指定包下面的日志输出级别 -->
-    <logger name="com.test.ssm.method2" level="DEBUG"/>
+<!--    <logger name="com.test.ssm.method2" level="DEBUG"/>-->
+    <logger name="org.mybatis.spring" level="DEBUG"/>
+<!--    <logger name="org.apache.ibatis" level="DEBUG"/>-->
 
     <!-- 日志输出级别 -->
-    <root level="INFO">
+    <root level="DEBUG">
         <appender-ref ref="INFO" />
         <appender-ref ref="ERROR" />
         <appender-ref ref="DEBUG"/>

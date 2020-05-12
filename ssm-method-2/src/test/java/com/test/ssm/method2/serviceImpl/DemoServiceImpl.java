@@ -25,4 +25,14 @@ public class DemoServiceImpl implements DemoService {
         Message message = messageDao.selectByPrimaryKey(9);
         return "hello, " + name + ", content" + message.getContent();
     }
+
+    @Override
+    public Message selectByPrimaryKey(Integer id) {
+        return messageDao.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public int updateByPrimaryKey(Integer id) {
+        return messageDao.updateByPrimaryKey(id);
+    }
 }
