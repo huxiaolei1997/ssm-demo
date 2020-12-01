@@ -140,8 +140,7 @@ public class TestMybatisCache {
         // 一般下执行完commit操作都需要刷新缓存，flushCache=true表示刷新缓存，这样可以避免数据库脏读。所以我们不用设置，默认即可
         messageDao3.updateByPrimaryKey(2);
         sqlSession3.commit();
-//
-//        // 第二次查询，即使sqlSession1已经关闭了，这次查询依然不发出sql语句
+
         message2 = messageDao2.selectByPrimaryKey(2);
         log.info("message2 = {}", message2);
 //        sqlSession2.close();
