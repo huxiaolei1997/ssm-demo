@@ -59,12 +59,14 @@ public class TestMybatisCache {
         log.info("第二次查询结果 message2 = {}", message2);
         sqlSession.close();
 
-        // sqlSession 关闭了，那么一级缓存自然也就失效了，但是如果开启了二级缓存，如果是调用了同一个mapper里面的select方法，如果二级缓存
-        // 里面有数据，还是会从二级缓存里面取数据
-        // 二级缓存的原理和一级缓存原理一样，第一次查询，会将数据放入缓存中，然后第二次查询则会直接去缓存中取。
-        // 但是一级缓存是基于 sqlSession 的，而 二级缓存是基于 mapper文件的namespace的，
-        // 也就是说多个sqlSession可以共享一个mapper中的二级缓存区域，并且如果两个mapper的namespace相同，
-        // 即使是两个mapper，那么这两个mapper中执行sql查询到的数据也将存在相同的二级缓存区域中
+        /**
+         * sqlSession 关闭了，那么一级缓存自然也就失效了，但是如果开启了二级缓存，如果是调用了同一个mapper里面的select方法，如果二级缓存
+         * 里面有数据，还是会从二级缓存里面取数据
+         * 二级缓存的原理和一级缓存原理一样，第一次查询，会将数据放入缓存中，然后第二次查询则会直接去缓存中取。
+         * 但是一级缓存是基于 sqlSession 的，而 二级缓存是基于 mapper文件的namespace的，
+         * 也就是说多个sqlSession可以共享一个mapper中的二级缓存区域，并且如果两个mapper的namespace相同，
+         * 即使是两个mapper，那么这两个mapper中执行sql查询到的数据也将存在相同的二级缓存区域中
+         */
         sqlSession = sqlSessionFactory.openSession();
         MessageDao messageDao3 = sqlSession.getMapper(MessageDao.class);
         // 修改数据
@@ -88,12 +90,14 @@ public class TestMybatisCache {
         log.info("第一次查询结果 message1 = {}", message1);
         log.info("第二次查询结果 message2 = {}", message2);
 
-        // sqlSession 关闭了，那么一级缓存自然也就失效了，但是如果开启了二级缓存，如果是调用了同一个mapper里面的select方法，如果二级缓存
-        // 里面有数据，还是会从二级缓存里面取数据
-        // 二级缓存的原理和一级缓存原理一样，第一次查询，会将数据放入缓存中，然后第二次查询则会直接去缓存中取。
-        // 但是一级缓存是基于 sqlSession 的，而 二级缓存是基于 mapper文件的namespace的，
-        // 也就是说多个sqlSession可以共享一个mapper中的二级缓存区域，并且如果两个mapper的namespace相同，
-        // 即使是两个mapper，那么这两个mapper中执行sql查询到的数据也将存在相同的二级缓存区域中
+        /**
+         * sqlSession 关闭了，那么一级缓存自然也就失效了，但是如果开启了二级缓存，如果是调用了同一个mapper里面的select方法，如果二级缓存
+         * 里面有数据，还是会从二级缓存里面取数据
+         * 二级缓存的原理和一级缓存原理一样，第一次查询，会将数据放入缓存中，然后第二次查询则会直接去缓存中取。
+         * 但是一级缓存是基于 sqlSession 的，而 二级缓存是基于 mapper文件的namespace的，
+         * 也就是说多个sqlSession可以共享一个mapper中的二级缓存区域，并且如果两个mapper的namespace相同，
+         * 即使是两个mapper，那么这两个mapper中执行sql查询到的数据也将存在相同的二级缓存区域中
+         */
 //        sqlSession = sqlSessionFactory.openSession();
 //        MessageDao messageDao3 = sqlSession.getMapper(MessageDao.class);
         // 修改数据
