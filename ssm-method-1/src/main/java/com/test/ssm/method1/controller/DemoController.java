@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author 胡晓磊
  * @version $Id: DemoController, v0.1
- * @company 杭州信牛网络科技有限公司
+ * @company 杭州网络科技有限公司
  * @date 2018年11月27日 14:09 胡晓磊 Exp $
  */
 @RestController
